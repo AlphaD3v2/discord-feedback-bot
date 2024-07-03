@@ -12,13 +12,13 @@ const rest = new REST({ version: "10" }).setToken(config.token);
 
 client.once("ready", () => {
   console.log(`Bot is Ready! ${client.user.tag}`);
-  console.log(`Code by Wick Studio`);
-  console.log(`discord.gg/wicks`);
+  console.log(`Code by Sadek`);
+  console.log(`https://discord.gg/free-accs`);
 
   rest.put(Routes.applicationCommands(client.user.id), {
     body: [new SlashCommandBuilder().setName("review").setDescription("review")],
   }).catch(error => {
-    console.error('فشل في تسجيل أوامر البوت :', error.code);
+    console.error('Failed to register bot commands:', error.code);
   });
 });
 
@@ -49,16 +49,16 @@ client.on("interactionCreate", async (interaction) => {
       );
 
       const embed = new MessageEmbed()
-        .setTitle('لوحة التقييم')
+        .setTitle('Review Panel')
         .setColor('#05131f')
-        .setDescription("مرحباً! يرجى اخذ من وقتك لحظة لتقييم خدمة العملاء.")
+        .setDescription("Hello! Please take a moment to review our customer service.")
         .setThumbnail('https://media.discordapp.net/attachments/1138092372480233522/1188406137863811122/feedback.png?ex=659a6876&is=6587f376&hm=cb62c222bd87eaa85e7ec43d88c5d09b0f85719676d3eab2fe1f238f0104269e&=&format=webp&quality=lossless&width=675&height=675')
-        .addField('ملاحظة', 'انقر على أحد أزرار النجمة أدناه لتقييم خدمة العملاء')
-        .setFooter(`${interaction.guild ? interaction.guild.name : 'سيرفر غير معرف'}`)
+        .addField('Note', 'Click on one of the star buttons below to rate the customer service')
+        .setFooter(`${interaction.guild ? interaction.guild.name : 'Unknown Server'}`)
         .setTimestamp();
 
-      embed.addField('الرجاء منك التقييم', '⭐⭐⭐⭐⭐', true);
-      embed.addField('تقديم التقييم', '⭐ - Terrible\n⭐⭐ - Bad\n⭐⭐⭐ - Average\n⭐⭐⭐⭐ - Good\n⭐⭐⭐⭐⭐ - Excellent', true);
+      embed.addField('Please Rate:', '⭐⭐⭐⭐⭐', true);
+      embed.addField('Rating Guide:', '⭐ - Terrible\n⭐⭐ - Bad\n⭐⭐⭐ - Average\n⭐⭐⭐⭐ - Good\n⭐⭐⭐⭐⭐ - Excellent', true);
 
       await interaction.reply({
         embeds: [embed],
@@ -74,12 +74,12 @@ client.on("interactionCreate", async (interaction) => {
       const starText = "⭐".repeat(stars);
   
       const embed2 = new MessageEmbed()
-        .setTitle('رسالة تقييم جديدة')
-        .setDescription(`**رسالة التقييم :**\n${review}\n\n`)
+        .setTitle('New Review Message')
+        .setDescription(`**Review Message:**\n${review}\n\n`)
         .setColor('#020b12')
         .setThumbnail('https://media.discordapp.net/attachments/1138092372480233522/1188406137863811122/feedback.png?ex=659a6876&is=6587f376&hm=cb62c222bd87eaa85e7ec43d88c5d09b0f85719676d3eab2fe1f238f0104269e&=&format=webp&quality=lossless&width=675&height=675')
-        .addField('تم الارسال بواسطة', interaction.user.toString(), true)
-        .addField('التقييم', starText || 'لا يوجد تصنيف متاح', true)
+        .addField('Submitted By', interaction.user.toString(), true)
+        .addField('Rating', starText || 'No rating available', true)
         .setTimestamp();
   
       await channel.send({
@@ -88,9 +88,9 @@ client.on("interactionCreate", async (interaction) => {
   
       const channelMention = channel.toString();
       const embed = new MessageEmbed()
-        .setAuthor('✅ تم')
+        .setAuthor('✅ Done')
         .setColor('#020b12')
-        .setDescription(`تم ارسال تقييم الى ${channelMention}`)
+        .setDescription(`Review has been submitted to ${channelMention}`)
         .setTimestamp();
   
       interaction.reply({ embeds: [embed], ephemeral: true }).catch(() => {});
@@ -101,26 +101,26 @@ client.on("interactionCreate", async (interaction) => {
         const stars = customId.split("_")[0];
         const review = new TextInputComponent()
           .setCustomId(`review`)
-          .setLabel("اكتب رسالة تقييمك هناك")
+          .setLabel("Type your review message here")
           .setStyle("SHORT")
           .setRequired(true);
         const row = new MessageActionRow().addComponents(review);
         const modal = new Modal()
           .setCustomId(`stars_${stars}`)
-          .setTitle("اكتب رسالة تقييمك هناك")
+          .setTitle("Type your review message here")
           .addComponents(row);
   
         await interaction.showModal(modal);
       }
     }
   } catch (error) {
-    console.error('حدث خطأ في التفاعل :', error);
+    console.error('Interaction error:', error);
     handleError(interaction, error);
   }
 });
 
 client.login(config.token).catch(error => {
-  console.error('حدث خطا اثناء تسجيل الدخول :', error);
+  console.error('Login error:', error);
 });
 
 function handleError(interaction, error) {
@@ -128,40 +128,40 @@ function handleError(interaction, error) {
   if (error.code) {
     switch (error.code) {
       case 50001:
-        errorMessage = 'Error code : 50001';
+        errorMessage = 'Error code: 50001';
         break;
       case 50013:
-        errorMessage = 'Error code : 50013';
+        errorMessage = 'Error code: 50013';
         break;
       case 10003:
-        errorMessage = 'Error code : 10003';
+        errorMessage = 'Error code: 10003';
         break;
       case 10011:
-        errorMessage = 'Error code : 10011';
+        errorMessage = 'Error code: 10011';
         break;
       case 10008:
-        errorMessage = 'Error code : 10008';
+        errorMessage = 'Error code: 10008';
         break;
       case 30005:
-        errorMessage = 'Error code : 30005';
+        errorMessage = 'Error code: 30005';
         break;
       case 30013:
-        errorMessage = 'Error code : 30013';
+        errorMessage = 'Error code: 30013';
         break;
       case 30016:
-        errorMessage = 'Error code : 30016';
+        errorMessage = 'Error code: 30016';
         break;
       case 500:
-        errorMessage = 'Error code : 500';
+        errorMessage = 'Error code: 500';
         break;
       case 40001:
-        errorMessage = 'Error code : 40001';
+        errorMessage = 'Error code: 40001';
         break;
       case 429:
-        errorMessage = 'Error code : 429';
+        errorMessage = 'Error code: 429';
         break;
       default:
-        errorMessage = `Error code : ${error.code} , please go discord.gg/wicks for get help`;
+        errorMessage = `Error code: ${error.code}, please visit discord.gg/wicks for assistance`;
         break;
     }
   } else if (error.message) {
